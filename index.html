@@ -1,126 +1,551 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shriyadithya Nair - Resume</title>
+    <meta name="description" content="Shriyadithya Nair - Cybersecurity Professional & Developer Portfolio">
+    <title>Shriyadithya Nair | Cybersecurity Profile</title>
     <style>
-        /* General Styles */
+        :root {
+            /* Core Theme */
+            --bg-deep: #050505;
+            --bg-panel: #0a0a0a;
+            --bg-panel-hover: #111111;
+            
+            /* Accents */
+            --primary: #00ff41;    /* Matrix Green */
+            --primary-dim: rgba(0, 255, 65, 0.1);
+            --accent: #00d4ff;     /* Electric Blue */
+            --accent-dim: rgba(0, 212, 255, 0.1);
+            --alert: #ff3333;      /* Critical Red */
+            
+            /* Typography */
+            --text-main: #e0e0e0;
+            --text-muted: #888888;
+            --font-mono: 'Courier New', Courier, monospace;
+            --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            
+            /* Spacing */
+            --section-pad: 6rem 2rem;
+            --card-rad: 4px;
+        }
+
+        /* --- RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+        
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* Header */
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- UTILITY CLASSES --- */
+        .container { max-width: 1200px; margin: 0 auto; width: 100%; }
+        .mono { font-family: var(--font-mono); }
+        .text-primary { color: var(--primary); }
+        .text-accent { color: var(--accent); }
+        .flex-center { display: flex; align-items: center; justify-content: center; }
+        
+        /* Glitch Effect Text */
+        .glitch-text { position: relative; }
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.8; 
+        }
+        .glitch-text::before {
+            color: var(--alert); z-index: -1; animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
+        }
+        .glitch-text::after {
+            color: var(--accent); z-index: -2; animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
+            100% { clip-path: inset(80% 0 10% 0); transform: translate(2px, -1px); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, 1px); }
+            100% { clip-path: inset(70% 0 20% 0); transform: translate(-2px, -1px); }
+        }
+
+        /* --- BACKGROUND ANIMATION --- */
+        #canvas-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; opacity: 0.25; pointer-events: none;
+        }
+
+        /* --- HEADER / NAV --- */
         header {
-            background-color: #0047AB;
-            color: white;
-            text-align: center;
-            padding: 1.5rem 0;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            margin-top: 0.5rem;
-        }
-
-        /* Section */
-        .section {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 1.5rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .section h2 {
-            color: #0047AB;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .section ul {
-            padding-left: 20px;
-        }
-
-        .section ul li {
-            margin-bottom: 0.5rem;
-        }
-
-        .section p {
-            margin: 0.5rem 0;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            background-color: #f1f1f1;
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             padding: 1rem 0;
-            margin-top: 2rem;
+        }
+        
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.25rem; font-weight: bold; letter-spacing: 1px; }
+        .nav-links a { 
+            margin-left: 2rem; font-size: 0.9rem; text-transform: uppercase; 
+            letter-spacing: 1px; color: var(--text-muted);
+        }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            flex-direction: column; text-align: center; padding-top: 60px;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            line-height: 1.1; margin-bottom: 1.5rem;
+            text-transform: uppercase; letter-spacing: -2px;
         }
 
-        footer p {
-            font-size: 1rem;
-            color: #555;
+        .typewriter {
+            font-family: var(--font-mono); color: var(--accent); font-size: 1.25rem;
+            border-right: 2px solid var(--accent);
+            white-space: nowrap; overflow: hidden;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+            margin-bottom: 2rem; display: inline-block; max-width: 100%;
+        }
+
+        .hero-summary {
+            max-width: 600px; margin: 0 auto 3rem; color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .cta-btn {
+            display: inline-block; padding: 1rem 2.5rem;
+            border: 1px solid var(--primary); color: var(--primary);
+            font-family: var(--font-mono); text-transform: uppercase;
+            letter-spacing: 2px; position: relative; overflow: hidden;
+            transition: 0.3s;
+        }
+        
+        .cta-btn:hover { background: var(--primary-dim); box-shadow: 0 0 20px var(--primary-dim); }
+
+        /* --- SECTIONS COMMON --- */
+        section { padding: var(--section-pad); border-top: 1px solid rgba(255,255,255,0.03); }
+        .section-title {
+            font-size: 2rem; margin-bottom: 3rem; color: var(--text-main);
+            display: flex; align-items: center; gap: 1rem;
+        }
+        .section-title::before {
+            content: '//'; color: var(--primary); font-family: var(--font-mono);
+        }
+
+        /* --- SKILLS GRID --- */
+        .skills-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .skill-card {
+            background: var(--bg-panel); padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+        .skill-card:hover {
+            border-color: var(--accent); transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(0, 212, 255, 0.1);
+        }
+        
+        .skill-category { color: var(--accent); margin-bottom: 1rem; font-size: 0.9rem; }
+        .skill-list li {
+            margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;
+            color: var(--text-muted); font-family: var(--font-mono); font-size: 0.9rem;
+        }
+        .skill-list li::before { content: '>'; color: var(--primary); }
+
+        /* --- EXPERIENCE TIMELINE --- */
+        .timeline { position: relative; border-left: 2px solid rgba(255,255,255,0.05); margin-left: 1rem; }
+        
+        .timeline-item {
+            margin-left: 2rem; margin-bottom: 3rem; position: relative;
+        }
+        
+        .timeline-item::before {
+            content: ''; position: absolute; left: -2.6rem; top: 0.5rem;
+            width: 1rem; height: 1rem; background: var(--bg-deep);
+            border: 2px solid var(--primary); border-radius: 50%;
+        }
+        
+        .exp-card {
+            background: var(--bg-panel); padding: 2rem; border-radius: var(--card-rad);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .exp-header {
+            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+            margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 1rem;
+        }
+        
+        .role-title { font-size: 1.2rem; font-weight: bold; color: var(--text-main); }
+        .company { color: var(--primary); font-family: var(--font-mono); }
+        .date { color: var(--text-muted); font-size: 0.9rem; }
+        
+        .exp-details li {
+            margin-bottom: 0.5rem; color: var(--text-muted); padding-left: 1.5rem;
+            position: relative;
+        }
+        .exp-details li::before {
+            content: '+'; position: absolute; left: 0; color: var(--accent);
+        }
+
+        /* --- PROJECTS --- */
+        .projects-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-card {
+            background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05);
+            padding: 2rem; display: flex; flex-direction: column; height: 100%;
+            transition: 0.3s;
+        }
+        
+        .project-card:hover { border-color: var(--primary); }
+        
+        .project-type {
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--primary); margin-bottom: 1rem;
+        }
+        
+        .project-title { font-size: 1.25rem; margin-bottom: 1rem; }
+        
+        .project-desc {
+            color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; flex-grow: 1;
+        }
+        
+        .tech-stack {
+            display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto;
+        }
+        
+        .tech-tag {
+            font-size: 0.75rem; font-family: var(--font-mono);
+            color: var(--accent); background: rgba(0, 212, 255, 0.05);
+            padding: 0.25rem 0.5rem; border-radius: 2px;
+        }
+
+        /* --- CONTACT & FOOTER --- */
+        .contact-methods {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem; margin-top: 2rem;
+        }
+        
+        .contact-box {
+            text-align: center; padding: 2rem; border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+        .contact-box:hover { background: var(--bg-panel-hover); border-color: var(--text-muted); }
+        
+        .contact-icon { font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary); }
+        
+        footer {
+            padding: 2rem 0; text-align: center; color: var(--text-muted);
+            font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent); } }
+
+        .fade-in-up { opacity: 0; transform: translateY(20px); transition: 0.6s ease-out; }
+        .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .typewriter { font-size: 1rem; white-space: normal; border: none; animation: none; }
         }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
+
+    <canvas id="canvas-bg"></canvas>
+
     <header>
-        <h1>Shriyadithya Nair</h1>
-        <p>Aspiring Cybersecurity Professional</p>
+        <div class="container nav-content">
+            <div class="logo mono"><span class="text-primary">root@shriya</span>:~$</div>
+            <nav class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Arsenal</a>
+                <a href="#experience">Experience</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
     </header>
 
-    <!-- Education Section -->
-    <div class="section">
-        <h2>Education</h2>
-        <p><strong>Shiv Nadar University, Chennai</strong> (2022-2026)<br>B.Tech Computer Science (Cybersecurity), CGPA: 8.1</p>
-        <p><strong>Army Public School</strong> (2020-2022)<br>12th Board (CBSE), 88%</p>
-        <p><strong>St. Helena’s School</strong> (2018-2020)<br>10th Board (ICSE), 94%</p>
-    </div>
+    <section class="hero">
+        <div class="container">
+            <h1 class="glitch-text" data-text="SHRIYADITHYA NAIR">SHRIYADITHYA NAIR</h1>
+            <div class="typewriter">Cybersecurity Specialist | Developer | Problem Solver</div>
+            <p class="hero-summary">
+                Aspiring cybersecurity professional pursuing a B.Tech in Computer Science. 
+                Combining strong logical reasoning with hands-on experience in network security, 
+                cryptography, and AI-driven threat detection.
+            </p>
+            <a href="#contact" class="cta-btn">Initiate Handshake</a>
+        </div>
+    </section>
 
-    <!-- Key Competencies Section -->
-    <div class="section">
-        <h2>Key Competencies</h2>
-        <ul>
-            <li>Classical and Modern Cryptography</li>
-            <li>Computer Networking and System Security</li>
-            <li>Programming Languages: Python, Java, C, C++</li>
-            <li>Operating Systems and DBMS</li>
-        </ul>
-    </div>
+    <section id="about" class="container">
+        <h2 class="section-title fade-in-up">Professional Profile</h2>
+        <div class="fade-in-up" style="max-width: 800px;">
+            <p style="margin-bottom: 1.5rem; color: var(--text-muted);">
+                Currently a B.Tech student at <strong>Shiv Nadar University</strong> (2022-2026) specializing in Cybersecurity with a CGPA of 8.23. I focus on bridging the gap between theoretical cryptography and practical system defense. My approach involves proactive learning and applying machine learning techniques to solve modern security challenges.
+            </p>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3 class="skill-category">EDUCATION</h3>
+                    <ul class="skill-list">
+                        <li>B.Tech CS (Cybersecurity) - Shiv Nadar Univ.</li>
+                        <li>12th Board (CBSE) - Army Public School (88%)</li>
+                        <li>10th Board (ICSE) - St. Helena’s School (94%)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- Projects Section -->
-    <div class="section">
-        <h2>Projects</h2>
-        <ul>
-            <li><strong>Packet Sniffer Application:</strong> Developed using Scapy and Tkinter.</li>
-            <li><strong>Anomaly Detection:</strong> Built models using Random Forest and KMeans for cybersecurity.</li>
-            <li><strong>Virtual Painter:</strong> Created with MediaPipe and OpenCV for gesture-based drawing.</li>
-        </ul>
-    </div>
+    <section id="skills" class="container">
+        <h2 class="section-title fade-in-up">Technical Arsenal</h2>
+        <div class="skills-grid fade-in-up">
+            <div class="skill-card">
+                <h3 class="skill-category">CORE SECURITY</h3>
+                <ul class="skill-list">
+                    <li>Cryptography & Algorithms</li>
+                    <li>Network Security & Sniffing</li>
+                    <li>Cyber Forensics (IDR, SIEM)</li>
+                    <li>Malware Analysis</li>
+                    <li>OSINT Tools</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3 class="skill-category">DEVELOPMENT</h3>
+                <ul class="skill-list">
+                    <li>Python (Scapy, Tkinter)</li>
+                    <li>SQL & Database Mgmt</li>
+                    <li>C / C++ / Java</li>
+                    <li>Web Application Security</li>
+                    <li>AWS (Cloud Security Basic)</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3 class="skill-category">AI & DATA</h3>
+                <ul class="skill-list">
+                    <li>PyTorch / Torchvision</li>
+                    <li>Random Forest / Gradient Boost</li>
+                    <li>OpenCV / MediaPipe</li>
+                    <li>Data Mining & Preprocessing</li>
+                    <li>Unsupervised Clustering (K-Means)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-    <!-- Contact Section -->
-    <div class="section">
-        <h2>Contact</h2>
-        <p>Email: shriya25nair@gmail.com</p>
-        <p>Phone: 8805862471</p>
-    </div>
+    <section id="experience" class="container">
+        <h2 class="section-title fade-in-up">Experience Log</h2>
+        <div class="timeline fade-in-up">
+            <div class="timeline-item">
+                <div class="exp-card">
+                    <div class="exp-header">
+                        <div class="role-title">Associate Intern</div>
+                        <div class="company">Vcreatek Consulting</div>
+                        <div class="date">May '24 - Oct '24</div>
+                    </div>
+                    <ul class="exp-details">
+                        <li>Focused on Web Application Security and Malware Analysis.</li>
+                        <li>Configured Network Security protocols and Firewalls.</li>
+                        <li>Developed a "Task Tracker" application with automated notifications.</li>
+                        <li>Built an "Employee Leave Application" with manager approval workflows.</li>
+                        <li>Contributed to the internal Performance Management System.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- Footer -->
+    <section id="projects" class="container">
+        <h2 class="section-title fade-in-up">Project Protocols</h2>
+        <div class="projects-grid fade-in-up">
+            <article class="project-card">
+                <div class="project-type">Network Security</div>
+                <h3 class="project-title">RL-Based Packet Sniffer</h3>
+                <p class="project-desc">
+                    A real-time network monitoring tool capturing live packets. Integrated with a Reinforcement Learning model to classify packets as normal or malicious dynamically.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Scapy</span>
+                    <span class="tech-tag">Streamlit</span>
+                    <span class="tech-tag">RL</span>
+                </div>
+            </article>
+
+            <article class="project-card">
+                <div class="project-type">Threat Intelligence</div>
+                <h3 class="project-title">Anomaly Detection System</h3>
+                <p class="project-desc">
+                    Implemented machine learning models (Random Forest, Gradient Boosting) to detect cyberattacks. utilized K-Means and PCA for unsupervised DDoS detection.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-tag">ML</span>
+                    <span class="tech-tag">Random Forest</span>
+                    <span class="tech-tag">DDoS Defense</span>
+                </div>
+            </article>
+
+            <article class="project-card">
+                <div class="project-type">Computer Vision</div>
+                <h3 class="project-title">Virtual Painter</h3>
+                <p class="project-desc">
+                    A gesture-controlled canvas application. Uses hand landmark detection for tracking movements, allowing users to draw in real-time without physical tools.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-tag">OpenCV</span>
+                    <span class="tech-tag">MediaPipe</span>
+                    <span class="tech-tag">Python</span>
+                </div>
+            </article>
+
+            <article class="project-card">
+                <div class="project-type">Research / Hackathon</div>
+                <h3 class="project-title">Ovarian Cancer Detection</h3>
+                <p class="project-desc">
+                    IIT Roorkee Hackathon Finalist. Developed a CNN model using PyTorch to detect ovarian cancer subtypes with high efficiency.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-tag">PyTorch</span>
+                    <span class="tech-tag">CNN</span>
+                    <span class="tech-tag">Research</span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section id="contact" class="container">
+        <h2 class="section-title fade-in-up">Establish Connection</h2>
+        <p style="text-align:center; color: var(--text-muted); margin-bottom: 2rem;">
+            Open to opportunities in Cybersecurity, Threat Intelligence, and Software Development.
+        </p>
+        <div class="contact-methods fade-in-up">
+            <a href="mailto:nairshriyadithya@gmail.com" class="contact-box">
+                <div class="contact-icon">✉</div>
+                <h3>Email</h3>
+                <p class="mono">nairshriyadithya@gmail.com</p>
+            </a>
+            <a href="https://www.linkedin.com/in/shriyadithya-nair-678ab4258/" target="_blank" class="contact-box">
+                <div class="contact-icon">in</div>
+                <h3>LinkedIn</h3>
+                <p class="mono">Connect on LinkedIn</p>
+            </a>
+            <a href="https://github.com/shriiyaaa" target="_blank" class="contact-box">
+                <div class="contact-icon">git</div>
+                <h3>GitHub</h3>
+                <p class="mono">View Repositories</p>
+            </a>
+        </div>
+    </section>
+
     <footer>
-        <p>Designed by Shriyadithya Nair</p>
+        <div class="container">
+            <p>&copy; 2024 Shriyadithya Nair. System Secure. <span class="text-primary">End of Line_</span></p>
+        </div>
     </footer>
+
+    <script>
+        // --- ANIMATION OBSERVER ---
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+        // --- BACKGROUND MATRIX NODES ANIMATION ---
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(0, 255, 65, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 50; i++) particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw();
+                // Draw connections
+                for (let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        ctx.strokeStyle = `rgba(0, 255, 65, ${0.1 - dist/1500})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => { resize(); initParticles(); });
+        resize();
+        initParticles();
+        animate();
+    </script>
 </body>
 </html>
